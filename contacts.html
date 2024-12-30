@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/novi.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <!--[if lt IE 10]><div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="httpqwertywindows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div><script src="js/html5shiv.min.js"></script><![endif]-->
 </head>
 
@@ -165,7 +167,7 @@
                     </div>
                     <div class="col-lg-7 col-xl-7">
                         <h3>Contact Us</h3>
-                        <form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+                        <form class="contactform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
                             <div class="row row-30">
                                 <div class="col-md-6">
                                     <div class="form-wrap"><input class="form-input" id="feedback-3-first-name" type="text" name="first-name" data-constraints="@Required"><label class="form-label" for="feedback-3-first-name">First Name</label></div>
@@ -318,6 +320,63 @@
     <div class="snackbars" id="form-output-global"></div><a class="builder-button" href="http://whizthemes.com/builder/b_koshrot/koshrot-builder" target="_blank"><img src="images/novi-icon-26x26.png" alt="" width="26" height="26">Try builder</a>
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+    $(document).ready(function () {
+      $('.contactform').on('submit', function (e) {
+        e.preventDefault();
+  
+        var fname = $('#feedback-3-first-name').val();
+        var lname = $('#feedback-3-last-name').val();
+        var email = $('#feedback-3-email').val();
+        var phone = $('#feedback-3-phone').val();
+        var message = $('#feedback-3-message').val();
+  
+        $.ajax({
+          url: 'https://script.google.com/macros/s/AKfycby8hxSVolrKPL1dt4O_drAUT_m7MeMl11zKOgM3IT3_MnEhXPhCSCM05RTV02uJYpkPsA/exec',
+          method: 'POST',
+          data: {
+            fname: fname,
+            lname: lname,
+            cemail: email,
+            cphone: phone,
+            cmessage: message
+          },
+          success: function (response) {
+            toastr.success('Form submitted successfully!');
+            setTimeout(function () {
+              window.location.href = 'http://127.0.0.1:5500/contacts.html';
+            }, 3000);
+          },
+          error: function (xhr, status, error) {
+            console.error("Error:", xhr.responseText);
+            toastr.error('There was an error submitting the form. Please try again.');
+          }
+        });
+      });
+    });
+  
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": false,
+      "positionClass": "toast-top-full-width",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    };
+  </script>
+  
 </body>
 
 </html>
